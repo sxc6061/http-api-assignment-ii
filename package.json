@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "pretest": "eslint ./src --fix",
     "test": "echo \"tests complete\"",
     "start": "node ./src/server.js",
-    "pretest": "eslint ./src --fix",
     "nodemon": "nodemon --watch ./src ./src/server.js"
   },
   "repository": {
