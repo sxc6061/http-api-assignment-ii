@@ -3,10 +3,105 @@
 <head>
   <title>Our simple HTTP server</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
+  <script>
+  "use strict"; 
+  const parseJSON = (xhr, content) => {
+    if(xhr.response && xhr.getResponseHeader('Content-Type') === 'application/json'){
+      const obj = JSON.parse(xhr.response);
+      console.dir(obj);
+      
+      if(obj.message){
+        content.innerHTML += `<p>${obj.message}</p>`;
+      }
+      else if (obj.users){
+        let objUsers = JSON.stringify(obj.users);
+        content.innerHTML += `<p>${objUsers}</p>`;
+      }
+    }
+  };
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
-  <script type="text/babel">
+  const handleResponse = (xhr, parseResponse) => {
+      const content = document.querySelector('#content');
+      
+      switch(xhr.status){
+      	case 200:
+      		content.innerHTML = '<b>Success!</b>';
+      		break;
+      	case 201:
+      		content.innerHTML = '<b>Created!</b>';
+          break;
+        case 204:
+      		content.innerHTML = '<b>Updated (No Content)!</b>';
+      		break;
+      	case 400:
+      		content.innerHTML = '<b>Bad Request</b>';
+      		break;
+      	case 404:
+      	content.innerHTML = '<b>Resource Not Found</b>';
+      		break;
+      	default:
+      	content.innerHTML = '<b>Error code not implemented by client</b>';
+      		break;
+      }
+    
+      parseJSON(xhr,content);
+    };
 
+    const requestUpdate = (e, userForm) => {
+      const url = userForm.querySelector('#urlField').value;
+      const method = userForm.querySelector('#methodSelect').value;
+      
+      const xhr = new XMLHttpRequest();
+      xhr.open(method,url);
+      xhr.setRequestHeader("Accept","application/json"); // not necessary in this instance
+      if(method === 'get'){
+      	// getting info back from server
+      	xhr.onload = () => handleResponse(xhr,true);
+      }else{
+      	// only getting metadata
+      	xhr.onload = () => handleResponse(xhr,false);
+      }
+      
+      xhr.send();
+      
+			e.preventDefault();
+			return false; // prevents event bubbling
+    };
+
+    const sendPost = (e, nameForm) => {
+			e.preventDefault();
+			
+			const nameAction = nameForm.getAttribute("action");
+			const nameMethod = nameForm.getAttribute("method");
+			
+			const nameField = nameForm.querySelector("#nameField");
+			const ageField = nameForm.querySelector("#ageField");
+			
+			const xhr = new XMLHttpRequest();
+			xhr.open(nameMethod,nameAction); 
+			
+			xhr.setRequestHeader('Accept','application/json');
+			xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+
+			xhr.onload = () => handleResponse(xhr);
+			
+			const formData = `name=${nameField.value}&age=${ageField.value}`;
+			xhr.send(formData); 
+			return false; // prevents event bubbling
+    };
+
+    const init = () => {
+      const userForm = document.querySelector('#userForm');
+      const getUsers = (e) => requestUpdate(e, userForm);
+      const nameForm = document.querySelector('#nameForm');
+      const addUser = (e) => sendPost(e, nameForm);
+      
+      nameForm.addEventListener('submit', addUser);
+      userForm.addEventListener('submit', getUsers);
+    };
+
+    window.onload = init;
+    
   </script>
 </head>
 <body>

@@ -1,0 +1,25 @@
+{
+  "name": "http-api-assignment-ii",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"tests complete\"",
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "nodemon": "nodemon --watch ./src ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sxc6061/http-api-assignment-ii.git"
+  },
+  "author": "\u001b[A\u001b[C\u001b[\u001b[B\u001b[Steven Cho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sxc6061/http-api-assignment-ii/issues"
+  },
+  "homepage": "https://github.com/sxc6061/http-api-assignment-ii#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
