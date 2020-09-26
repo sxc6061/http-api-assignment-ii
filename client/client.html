@@ -4,7 +4,6 @@
   <title>Our simple HTTP server</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   <script>
-  "use strict"; 
   const parseJSON = (xhr, content) => {
     if(xhr.response && xhr.getResponseHeader('Content-Type') === 'application/json'){
       const obj = JSON.parse(xhr.response);
