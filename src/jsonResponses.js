@@ -30,10 +30,8 @@ const getUsers = (request, response) => {
   return respondJSON(request, response, 200, responseJSON);
 };
 
-const getUsersMeta = (request, response) =>
-  // would also be nice to calculate file size, last-modified date etc ...
-  // and send that too
-  respondJSONMeta(request, response, 200);
+const getUsersMeta = (request, response) => respondJSONMeta(request, response, 200);
+
 const addUser = (request, response, body) => {
   const responseJSON = {
     message: 'name and age are both required',
