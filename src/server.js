@@ -25,11 +25,11 @@ const handlePost = (request, response, parsedUrl) => {
     const body = [];
 
     // https://nodejs.org/api/http.html
-    request.on('error', (err) => {
-      console.dir(err);
-      response.statusCode = 400;
-      response.end();
-    });
+    // request.on('error', (err) => {
+    //   console.dir(err);
+    //   response.statusCode = 400;
+    //   response.end();
+    // });
 
     request.on('data', (chunk) => {
       body.push(chunk);
@@ -45,8 +45,8 @@ const handlePost = (request, response, parsedUrl) => {
 };
 
 const handleGet = (request, response, parsedUrl) => {
-  console.dir(parsedUrl.pathname);
-  console.dir(request.method);
+  // console.dir(parsedUrl.pathname);
+  // console.dir(request.method);
 
   // not perfect and will fail if HTTP method is not 'GET' or 'HEAD'
   if (urlStruct[request.method][parsedUrl.pathname]) {
@@ -67,4 +67,4 @@ const onRequest = (request, response) => {
 
 http.createServer(onRequest).listen(port);
 
-console.log(`Listening on 127.0.0.1: ${port}`);
+// console.log(`Listening on 127.0.0.1: ${port}`);
